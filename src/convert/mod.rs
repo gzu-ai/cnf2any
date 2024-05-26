@@ -1,22 +1,22 @@
 
 
-use crate::format::{asp::Asp, cnf::CNF};
+use crate::format::{asp::Asp, cnf::CNF, wcnf::Wcnf};
 
 
 
 
 pub(crate) struct ConvertToAsp{
     pre :String,
-    // label: HashMap<String,i64>,
+    // label: HashMap<String,i32>,
 }
 
 impl  ConvertToAsp {
     
     pub(crate) fn new(pre :String)->Self {
-        return Self{pre:pre};
+        return Self{pre};
     }
 
-    pub(crate) fn to_lit(&self,cnf_val:i64)->i64 {
+    pub(crate) fn to_lit(&self,cnf_val:i32)->i32 {
         return  cnf_val+1;
     }
 
@@ -35,5 +35,34 @@ impl  ConvertToAsp {
         }
 
         return  asp;
+    }
+}
+
+
+
+pub(crate) struct ConvertToWcnf{
+
+}
+
+impl  ConvertToWcnf {
+    
+    pub(crate) fn new()->Self {
+        return Self{};
+    }
+
+    pub(crate) fn to_wcnf(&self,cnf:&CNF,m:&Vec<i32>) -> Wcnf{
+        let mut wcnf=Wcnf::new(cnf.var_num,i32::MAX);
+
+        for clause in &cnf.clauses{
+            let mut c=vec![];
+            clause.head.iter().for_each(|lit|c.push(lit.val));//.collect();
+            clause.body.iter().for_each(|lit|c.push(-lit.val));
+            wcnf.add_clause(c, None);
+        }
+
+        for atom in m{
+            wcnf.add_clause(vec![-atom], Some(1));
+        }
+        return  wcnf;
     }
 }

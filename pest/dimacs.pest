@@ -1,0 +1,17 @@
+WHITESPACE = _{ " " | "\t" }
+COMMENT    = _{ "c" ~ (!NEWLINE ~ ANY)*~NEWLINE+ }
+number     = @{
+    "-"? ~ (ASCII_DIGIT+)
+}
+lit        = @{
+    !("0" | "-0") ~ number
+}
+
+f      = {
+    "p cnf" ~ number ~ number ~ NEWLINE+
+}
+cluase = {
+    lit+ ~ "0"
+}
+
+file = { SOI ~ f? ~ (cluase ~ NEWLINE*)* ~ EOI }

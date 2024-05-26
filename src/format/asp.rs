@@ -2,7 +2,7 @@ use std::{collections::HashMap, fmt::Display};
 
 /// Represents an Answer Set Programming (ASP) structure.
 pub(crate) struct Asp {
-    label: HashMap<String, i64>, // A map of labels to their corresponding values
+    label: HashMap<String, i32>, // A map of labels to their corresponding values
     rules: Vec<AspRule>, // A vector of ASP rules
 }
 
@@ -14,16 +14,16 @@ pub(crate) enum AspRule {
 
 /// Represents a regular ASP rule with a head and positive/negative body literals.
 pub(crate) struct RegularRule {
-    head: i64, // The head literal of the rule
-    pos_body: Vec<i64>, // The positive body literals of the rule
-    neg_body: Vec<i64>, // The negative body literals of the rule
+    head: i32, // The head literal of the rule
+    pos_body: Vec<i32>, // The positive body literals of the rule
+    neg_body: Vec<i32>, // The negative body literals of the rule
 }
 
 /// Represents a disjunction ASP rule with a head and positive/negative body literals.
 pub(crate) struct DisjunctRule {
-    head: Vec<i64>, // The head literals of the rule
-    pos_body: Vec<i64>, // The positive body literals of the rule
-    neg_body: Vec<i64>, // The negative body literals of the rule
+    head: Vec<i32>, // The head literals of the rule
+    pos_body: Vec<i32>, // The positive body literals of the rule
+    neg_body: Vec<i32>, // The negative body literals of the rule
 }
 
 impl Asp {
@@ -41,7 +41,7 @@ impl Asp {
     ///
     /// * `val` - The value of the label
     /// * `name` - The name of the label
-    pub(crate) fn add_label(&mut self, val: i64, name: String) {
+    pub(crate) fn add_label(&mut self, val: i32, name: String) {
         self.label.insert(name, val); // Inserts the label and its value into the label map
     }
 
@@ -54,9 +54,9 @@ impl Asp {
     /// * `neg_body` - The negative body literals of the rule
     pub(crate) fn add_rule(
         &mut self,
-        head: Vec<i64>,
-        pos_body: Vec<i64>,
-        neg_body: Vec<i64>,
+        head: Vec<i32>,
+        pos_body: Vec<i32>,
+        neg_body: Vec<i32>,
     ) {
         let rule = match head.len() {
             0 => {

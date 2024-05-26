@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 pub(crate) struct CNF {
-   pub var_num: i64,
+   pub var_num: i32,
    pub clauses: Vec<Clause>,
 }
 
@@ -11,7 +11,7 @@ pub(crate) struct Clause {
 }
 
 pub(crate) struct Lit {
-    pub(crate) val: i64,
+    pub(crate) val: i32,
     pub(crate) neg: bool,
 }
 
@@ -21,8 +21,16 @@ impl Display for Lit {
             write!(f, "-")?;
         }
         write!(f,"{}",self.val)
-           
-        
+    }
+}
+
+impl From<Lit> for i32 {
+    fn from(value: Lit) -> Self {
+        if value.neg {
+            -value.val
+        }else {
+            value.val
+        }
     }
 }
 
